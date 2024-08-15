@@ -19,7 +19,7 @@ const HomePage = () => {
           temporibus. Perferendis quos ratione, voluptates fuga vitae odio
           provident rem iusto vero.
         </h3>
-        <Link to="/dasboard">GET STARTED</Link>
+        <Link to="/dashboard">GET STARTED</Link>
       </div>
       <div className="right">
         <div className="imgContainer">
