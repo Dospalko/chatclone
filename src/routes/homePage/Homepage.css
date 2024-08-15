@@ -1,8 +1,118 @@
-.homePage{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.homepage {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  height: 100%;
+}
+.left {
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+  h1 {
+    font-size: 128px;
+    background: linear-gradient(to right, #ffc107 0%, #ff9800 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  h2 {
+  }
+  h3 {
+    font-weight: 400;
+    max-width: 70%;
+  }
+  a {
+    padding: 15px 25px;
+    background-color: #ffc107;
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-top: 20px;
+    text-decoration: none;
+    &:hover{
+        background-color: white;
+        color: #ff9800;
+    }
+  }
+  
+}
+.right {
+  flex: 1;
+  display: flex;
+  align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #f5f5f5;
+    height: 100%;
+    .imgContainer{
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        background-color: #140e2d;
+        border-radius: 50px;
+        width: 80%;
+        height: 50%;
+        .bot{
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: 3s ease-in-out infinite alternate bot;
+        }
+        .bgContainer{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            overflow: hidden;
+            border-radius: 50px;
+            .bg{
+                background-image: url('/bg.png');
+                opacity: 0.2;
+                width: 200%;
+                height: 100%;
+                background-size: auto 100%;
+                animation: 8s ease-in-out infinite alternate bg;
+            }
+        }
+    }
+}
+.orbital{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+    z-index: -1;
+    animation: 100s linear infinite rotateOrbital;
+}
+
+@keyframes rotateOrbital {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+    
+}
+@keyframes bot {
+  0% {
+    transform: scale(1) rotate(0def);
+  }
+  100% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+    
+}
+@keyframes bg {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+    
 }
