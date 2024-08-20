@@ -15,15 +15,43 @@ const NewPrompt = () => {
   });
   useEffect(() => {
     endRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [answer,question,img.dbData]);
+  }, [answer, question, img.dbData]);
+  const chat = model.startChat({
+    history: [
+      {
+        role: 'user',
+        parts: [{ text: 'Hello, how can I help you today?' }],
+      },
+      {
+        role: 'model',
+        parts: [{ text: 'I am here to assist you with your queries.' }],
+      },
+    ],
+    generationConfig: {
+      // maxOutputTokens: 100,
+    },
+  });
+  const add = async (text, isInitial) => {
+  if (!isInitial) setQuestion(text);
 
-  const add = async (text) => {
-    setQuestion(text);
-    const result = await model.generateContent(text);
-    const response = await result.response;
-    setAnswer(response.text);
-  };
-  
+  try {
+    const aiDataEntries = img.aiData && Object.entries(img.aiData).length ? [img.aiData, { text }] : [{ text }];
+    const result = await chat.sendMessageStream(aiDataEntries);
+    
+    let accumulatedText = "";
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      console.log(chunkText);
+      accumulatedText += chunkText;
+      setAnswer(accumulatedText);
+    }
+
+    mutation.mutate();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -44,7 +72,11 @@ const NewPrompt = () => {
         />
       )}
       {question && <div className="message user">{question}</div>}
-      {answer && <div className="message"><Markdown>{answer}</Markdown></div>}
+      {answer && (
+        <div className="message">
+          <Markdown>{answer}</Markdown>
+        </div>
+      )}
       <div className="endChat" ref={endRef}></div>
 
       <form className="newForm" onSubmit={handleSubmit}>
